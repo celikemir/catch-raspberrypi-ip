@@ -1,6 +1,8 @@
 import subprocess
 import os
 import re
+
+
 def ping(server='camera1.local', count=1, wait_sec=1):
     """
 
@@ -11,13 +13,13 @@ def ping(server='camera1.local', count=1, wait_sec=1):
         output = subprocess.check_output(cmd).decode().strip()
         lines = output.split("\n")
         total = lines[-2].split(',')[3].split()[1]
-	loss = lines[-2].split(',')[2].split()[0]
+        loss = lines[-2].split(',')[2].split()[0]
         timing = lines[-1].split()[3].split('/')
 
-	if(loss[0]=="0"):
-	    ipaddr=re.findall(r'\(([^)]+)\)',output)[0]
+        if(loss[0] == "0"):
+            ipaddr = re.findall(r'\(([^)]+)\)', output)[0]
 
-	    print(ipaddr)
+            return("{}".format(ipaddr))
         return {
             'type': 'rtt',
             'min': timing[0],
@@ -32,5 +34,5 @@ def ping(server='camera1.local', count=1, wait_sec=1):
         print(e)
         return None
 
-ping()
 
+ping()
