@@ -5,7 +5,6 @@ import re
 
 def ping(server='camera1.local', count=1, wait_sec=1):
     """
-
     :rtype: dict or None
     """
     cmd = "ping -c {} -W {} {}".format(count, wait_sec, server).split(' ')
@@ -18,8 +17,11 @@ def ping(server='camera1.local', count=1, wait_sec=1):
 
         if(loss[0] == "0"):
             ipaddr = re.findall(r'\(([^)]+)\)', output)[0]
+            ipaddr = ("http://{}:8081/?action=stream\"".format(ipaddr))
 
-            return("{}".format(ipaddr))
+        else:
+            print("package is lossed")
+
         return {
             'type': 'rtt',
             'min': timing[0],
@@ -33,6 +35,3 @@ def ping(server='camera1.local', count=1, wait_sec=1):
     except Exception as e:
         print(e)
         return None
-
-
-ping()
